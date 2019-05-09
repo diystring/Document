@@ -1,5 +1,5 @@
 # 无需废话，直接上码
-### 创建并且初始化一个IDbContext.
+> 创建并且初始化一个IDbContext. 二选一
 ```
 public IDbContext Context()
 {
@@ -35,9 +35,7 @@ dynamic product = Context.Sql(@"select * from Product
 Product product = Context.Sql(@"select * from Product
 			where ProductId = 1").QuerySingle<Product>();
 ```
-> 返回一个DataTable对象
->> QueryMany< DataTable > and QuerySingle<DataTable> 都可以返回DataTable, 只不过QuerMany返回的是 List< DataTable >
-
+> 返回一个DataTable对象，QueryMany< DataTable > and QuerySingle<DataTable> 都可以返回DataTable, 只不过QuerMany返回的是 List< DataTable >
 ```
 DataTable products = Context.Sql("select * from Product").QuerySingle<DataTable>();
 ```
