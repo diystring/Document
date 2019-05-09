@@ -3,17 +3,14 @@
 ```
 public static IDbContext QueryDB()
 {
-    return new DbContext().ConnectionStringName("DBContext",
-    DbProviderTypes.SqlServer);
+    return new DbContext().ConnectionStringName("DBContext",DbProviderTypes.SqlServer);
 }
 ```
 >config中的连接字符串实例
+><connectionStrings>
+>    <add name="DBContext"connectionString="server=192.168.1.100;uid=sa;pwd=sa;database=demoDB;" />
+></connectionStrings>
 
-```
-<connectionStrings>
-<add name="DBContext"connectionString="server=192.168.1.100;uid=sa;pwd=sa;database=demoDB;" />
-</connectionStrings>
-```
 >那么下面就可以在我们的数据业务层中根据自己的需求随心所欲的写sql了。 
 
 >1.需要返回一个实体： 
