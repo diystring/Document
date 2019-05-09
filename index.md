@@ -10,6 +10,7 @@ public static IDbContext QueryDB()
 }
 ```
 >config中的连接字符串实例
+
 ```
 <connectionStrings>
     <add name="testDBContext"connectionString="server=192.168.1.100;uid=sa;pwd=sa!;database=testDB;" />
