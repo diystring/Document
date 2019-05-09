@@ -12,44 +12,46 @@ public IDbContext Context()
 	"Server=MyServerAddress;Database=MyDatabase;Trusted_Connection=True;", new SqlServerProvider());
 }
 ```
->* 返回 dynamic类型的List 集合:
+
+> 返回 dynamic类型的List 集合:
 ```
 List<dynamic> products = Context.Sql("select * from Product").QueryMany<dynamic>();
 ```
->* 返回强类型的List 集合
-
+> 返回强类型的List 集合
+```
 List<Product> products = Context.Sql("select * from Product").QueryMany<Product>();
->* 返回一个自定义类型的集合类型:
+```
+> 返回一个自定义类型的集合类型:
 ```
 ProductionCollection products = Context.Sql("select * from Product").QueryMany<Product, ProductionCollection>();
 ```
->* 返回单个动态对象数据表
+> 返回单个动态对象数据表
 ```
 dynamic product = Context.Sql(@"select * from Product
 				where ProductId = 1").QuerySingle<dynamic>();
 ```
->* 返回一个强类型对象
+> 返回一个强类型对象
 ```
 Product product = Context.Sql(@"select * from Product
 			where ProductId = 1").QuerySingle<Product>();
 ```
->* 返回一个DataTable对象
+> 返回一个DataTable对象
 >> QueryMany< DataTable > and QuerySingle<DataTable> 都可以返回DataTable, 只不过QuerMany返回的是 List< DataTable >
 
 ```
 DataTable products = Context.Sql("select * from Product").QuerySingle<DataTable>();
 ```
->* 返回一个 int 类型
+> 返回一个 int 类型
 ```
 int numberOfProducts = Context.Sql(@"select count(*)
 			from Product").QuerySingle<int>();
 ```
->* 返回一个List< int >
+> 返回一个List< int >
 ```
 List<int> productIds = Context.Sql(@"select ProductId
 				from Product").QueryMany<int>();
 ```
->* 索引传参SQL
+> 索引传参SQL
 ```
 dynamic products = Context.Sql(@"select * from Product
 			where ProductId = @0 or ProductId = @1", 1, 2).QueryMany<dynamic>();
@@ -58,7 +60,7 @@ dynamic products = Context.Sql(@"select * from Product
 			where ProductId = @0 or ProductId = @1")
 			.Parameters(1, 2).QueryMany<dynamic>();
 ```
->* 参数名传参
+> 参数名传参
 ```
 dynamic products = Context.Sql(@"select * from Product
 			where ProductId = @ProductId1 or ProductId = @ProductId2")
@@ -66,7 +68,7 @@ dynamic products = Context.Sql(@"select * from Product
 			.Parameter("ProductId2", 2)
 			.QueryMany<dynamic>();
 ```
->* 输出参数
+> 输出参数
 ```
 var command = Context.Sql(@"select @ProductName = Name from Product
 			where ProductId=1")
@@ -75,7 +77,7 @@ command.Execute();
 
 string productName = command.ParameterValue<string>("ProductName");
 ```
->* List 类型参数
+> List 类型参数
 >> 请注意，不要在（…）语法中留下任何空格.
 ```
 List<int> ids = new List<int>() { 1, 2, 3, 4 };
