@@ -75,11 +75,9 @@ var command = Context.Sql(@"select @ProductName = Name from Product
 string productName = command.ParameterValue<string>("ProductName");
 ```
 > List 类型参数,请注意，不要在（…）语法中留下任何空格
-
 ```
 List<int> ids = new List<int>() { 1, 2, 3, 4 };
-dynamic products = Context.Sql(@"select * from Product
-			where ProductId in(@0)", ids).QueryMany<dynamic>();
+dynamic products = Context.Sql(@"select * from Product where ProductId in(@0)", ids).QueryMany<dynamic>();
 ```
 > like operator:
 ```
@@ -136,7 +134,8 @@ private void MapComplexProduct(IList<Product> products, IDataReader reader)
 	products.Add(product);
 }
 ```
-> Multiple result sets FluentData supports multiple resultsets. This allows you to do multiple queries in a single database call. When this feature is used it's important to wrap the code inside a using statement as shown below in order to make sure that the database connection is closed.
+> Multiple result sets FluentData supports multiple resultsets. This allows you to do multiple queries in a single database call. When this feature is used it's important to wrap the code inside a using statement as shown below in order to make sure that the database connection is closed
+
 ```
 using (var command = Context.MultiResultSql)
 {
