@@ -3,11 +3,11 @@
 ### 它是我们与数据库操作中的上下文，所有的有关数据操作都调用它下面的方法。初始化它的连接字符串web.config
 
 ```
-public static IDbContext QueryDB()
-{
-   return new DbContext().ConnectionStringName("DBContext",
-   DbProviderTypes.SqlServer);
-}
+    public static IDbContext QueryDB()
+    {
+        return new DbContext().ConnectionStringName("DBContext",
+        DbProviderTypes.SqlServer);
+    }
 ```
 >config中的连接字符串实例
 
