@@ -75,9 +75,9 @@ var command = Context.Sql(@"select @ProductName = Name from Product
 string productName = command.ParameterValue<string>("ProductName");
 ```
 > List 类型参数,请注意，不要在（…）语法中留下任何空格.
+
 ```
 List<int> ids = new List<int>() { 1, 2, 3, 4 };
-
 dynamic products = Context.Sql(@"select * from Product
 			where ProductId in(@0)", ids).QueryMany<dynamic>();
 ```
