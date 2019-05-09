@@ -11,11 +11,17 @@ public static IDbContext QueryDB()
 ```
 >config中的连接字符串实例
 
+```
+<connectionStrings>
+<add name="testDBContext"connectionString="server=192.168.1.100;uid=sa;pwd=sa!;database=testDB;" />
+</connectionStrings>
+```
 >那么下面就可以在我们的数据业务层中根据自己的需求随心所欲的写sql了。 
 
 >1.需要返回一个实体： 
-
+```
 Product product = QueryDB().Sql(@"select * from Product where ProductId = 1").QuerySingle<Product>()
+```
 
 >2.根据参数返回一个实体？别急，尝尝那飘渺的链式操作吧 
 ```
