@@ -74,8 +74,7 @@ var command = Context.Sql(@"select @ProductName = Name from Product
     command.Execute();
 string productName = command.ParameterValue<string>("ProductName");
 ```
-> List 类型参数
->> 请注意，不要在（…）语法中留下任何空格.
+> List 类型参数,请注意，不要在（…）语法中留下任何空格.
 ```
 List<int> ids = new List<int>() { 1, 2, 3, 4 };
 
