@@ -135,7 +135,6 @@ private void MapComplexProduct(IList<Product> products, IDataReader reader)
 }
 ```
 > Multiple result sets FluentData supports multiple resultsets. This allows you to do multiple queries in a single database call. When this feature is used it's important to wrap the code inside a using statement as shown below in order to make sure that the database connection is closed
-
 ```
 using (var command = Context.MultiResultSql)
 {
@@ -242,13 +241,11 @@ var rowsAffected = Context.StoredProcedure("ProductUpdate")
 			.Parameter("Name", "The Warren Buffet Way")
 			.Parameter("ProductId", 1).Execute();
 ```
-> Using a builder with automapping:
+> Using a builder with automapping
 ```
 var product = Context.Sql("select * from Product where ProductId = 1")
 			.QuerySingle<Product>();
-
 product.Name = "The Warren Buffet Way";
-
 var rowsAffected = Context.StoredProcedure<Product>("ProductUpdate", product)
 			.AutoMap(x => x.CategoryId).Execute();
 ```
