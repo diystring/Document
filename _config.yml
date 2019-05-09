@@ -3,11 +3,11 @@
 # Site wide configuration
 ####################################
 #
-title: Leonids
+title: Rtwo
 email:
-description: A simple and awesome blog theme powered by jekyll.
+description: 懒人推动科技的进步
 url: # the base hostname & protocol for your site
-keywords: ["blog", "jekyll"]
+keywords: ["diystring", "rtwo"]
 
 #
 ###################################
@@ -33,10 +33,10 @@ kramdown:
 ####################################
 #
 owner:
-  name: Leonids
+  name: 顽皮大叔
   avatar: leonids-logo.png
-  job: "A jekyll theme"
-  bio: "A simple and awesome blog theme powered by jekyll."
+  job: "程序猿"
+  bio: "懒人推动科技的进步"
   email:
   disqus-shortname:
   twitter: #username
