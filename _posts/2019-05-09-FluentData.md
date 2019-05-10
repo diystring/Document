@@ -242,7 +242,6 @@ var rowsAffected = Context.StoredProcedure<Product>("ProductUpdate", product)
 var product = Context.Sql("select * from Product where ProductId = 1")
 			.QuerySingle<Product>();
 product.Name = "The Warren Buffet Way";
-
 var rowsAffected = Context.StoredProcedure<Product>("ProductUpdate", product)
 			.Parameter(x => x.ProductId)
 			.Parameter(x => x.Name).Execute();
@@ -254,11 +253,9 @@ using (var context = Context.UseTransaction(true))
 	context.Sql("update Product set Name = @0 where ProductId = @1")
 				.Parameters("The Warren Buffet Way", 1)
 				.Execute();
-
 	context.Sql("update Product set Name = @0 where ProductId = @1")
 				.Parameters("Bill Gates Bio", 2)
 				.Execute();
-
 	context.Commit();
 }
 ```
@@ -267,7 +264,6 @@ using (var context = Context.UseTransaction(true))
 List<Product> products = Context.EntityFactory(new CustomEntityFactory())
 			.Sql("select * from Product")
 			.QueryMany<Product>();
-
 public class CustomEntityFactory : IEntityFactory
 {
 	public virtual object Resolve(Type type)
