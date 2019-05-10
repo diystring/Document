@@ -79,22 +79,22 @@ string productName = command.ParameterValue<string>("ProductName");
 List<int> ids = new List<int>() { 1, 2, 3, 4 };
 dynamic products = Context.Sql(@"select * from Product where ProductId in(@0)", ids).QueryMany<dynamic>();
 ```
-> like operator:
+> like 模糊查询:
 ```
 string cens = "%abc%";
 Context.Sql("select * from Product where ProductName like @0",cens);
 ```
-> Mapping Automapping - 1:1 match between the database and the .NET object:
+> 实体集合自动映射
 ```
 List<Product> products = Context.Sql(@"select *
 			from Product")
 			.QueryMany<Product>();
 ```
-> Automap to a custom collection:
+> 自定义映射对象
 ```
 ProductionCollection products = Context.Sql("select * from Product").QueryMany<Product, ProductionCollection>();
 ```
-> Automapping - Mismatch between the database and the .NET object, use the alias keyword in SQL: Weakly typed:
+> 也可以将链表查询结果集映射到自定义对象集合
 ```
 List<Product> products = Context.Sql(@"select p.*,
 			c.CategoryId as Category_CategoryId,
@@ -103,7 +103,7 @@ List<Product> products = Context.Sql(@"select p.*,
 			inner join Category c on p.CategoryId = c.CategoryId")
 				.QueryMany<Product>();
 ```
-> Here the p.* which is ProductId and Name would be automapped to the properties Product.Name and Product.ProductId, and Category_CategoryId and Category_Name would be automapped to Product.Category.CategoryId and Product.Category.Name. Custom mapping using dynamic:
+> 使用动态的自定义映射
 ```
 List<Product> products = Context.Sql(@"select * from Product")
 			.QueryMany<Product>(Custom_mapper_using_dynamic);
@@ -113,7 +113,7 @@ public void Custom_mapper_using_dynamic(Product product, dynamic row)
 	product.Name = row.Name;
 }
 ```
-> Custom mapping using a datareader:
+> 基于 datareader 的动态的自定义映射
 ```
 List<Product> products = Context.Sql(@"select * from Product")
 			.QueryMany<Product>(Custom_mapper_using_datareader);
@@ -123,8 +123,9 @@ public void Custom_mapper_using_datareader(Product product, IDataReader row)
 	product.Name = row.GetString("Name");
 }
 ```
-> Or if you have a complex entity type where you need to control how it is created then the QueryComplexMany/QueryComplexSingle can be used: var products = new List<Product>();
+>如果你有一个复杂的实体类型需要控制它的创建方式，那么可以使用 QueryComplexMany/QueryComplexSingle 
 ```
+var products = new List<Product>();
 Context.Sql("select * from Product").QueryComplexMany<Product>(products, MapComplexProduct);
 private void MapComplexProduct(IList<Product> products, IDataReader reader)
 {
@@ -134,7 +135,7 @@ private void MapComplexProduct(IList<Product> products, IDataReader reader)
 	products.Add(product);
 }
 ```
-> Multiple result sets FluentData supports multiple resultsets. This allows you to do multiple queries in a single database call. When this feature is used it's important to wrap the code inside a using statement as shown below in order to make sure that the database connection is closed
+> 支持在单次数据库链接中执行查询多个结果集
 ```
 using (var command = Context.MultiResultSql)
 {
@@ -145,7 +146,7 @@ using (var command = Context.MultiResultSql)
 	List<Product> products = command.QueryMany<Product>();
 }
 ```
-> The first time the Query method is called it does a single query against the database. The second time the Query is called, FluentData already knows that it's running in a multiple result set mode, so it reuses the data retrieved from the first query. Select data and Paging A select builder exists to make selecting data and paging easy:
+> 链表查询并支持分页
 ```
 List<Product> products = Context.Select<Product>("p.*, c.Name as Category_Name")
 			       .From(@"Product p 
@@ -154,15 +155,12 @@ List<Product> products = Context.Select<Product>("p.*, c.Name as Category_Name")
 			       .OrderBy("p.Name")
 			       .Paging(1, 10).QueryMany();
 ```
-> By calling Paging(1, 10) then the first 10 products will be returned. Insert data Using SQL:
+> 插入数据，返回自增ID
 ```
 int productId = Context.Sql(@"insert into Product(Name, CategoryId)
 			values(@0, @1);")
 			.Parameters("The Warren Buffet Way", 1)
 			.ExecuteReturnLastId<int>();
-```
-> Using a builder:
-```
 int productId = Context.Insert("Product")
 			.Column("Name", "The Warren Buffet Way")
 			.Column("CategoryId", 1)
