@@ -165,7 +165,7 @@ int productId = Context.Insert("Product")
 			.Column("CategoryId", 1)
 			.ExecuteReturnLastId<int>();
 ```
-> Using a builder with automapping:
+> 使用自动应用的生成器
 ```
 Product product = new Product();
 product.Name = "The Warren Buffet Way";
@@ -174,21 +174,18 @@ product.ProductId = Context.Insert<Product>("Product", product)
 			.AutoMap(x => x.ProductId)
 			.ExecuteReturnLastId<int>();
 ```
-> We send in ProductId to the AutoMap method to get AutoMap to ignore and not map the ProductId since this property is an identity field where the value is generated in the database. Update data Using SQL:
+> 更新操作，返回受影响行数
 ```
 int rowsAffected = Context.Sql(@"update Product set Name = @0
 			where ProductId = @1")
 			.Parameters("The Warren Buffet Way", 1)
 			.Execute();
-```
-> Using a builder:
-```
 int rowsAffected = Context.Update("Product")
 			.Column("Name", "The Warren Buffet Way")
 			.Where("ProductId", 1)
 			.Execute();
 ```
-> Using a builder with automapping:
+> 使用自定义映射来更新实体
 ```
 Product product = Context.Sql(@"select * from Product
 			where ProductId = 1")
@@ -199,7 +196,7 @@ int rowsAffected = Context.Update<Product>("Product", product)
 			.Where(x => x.ProductId)
 			.Execute();
 ```
-> We send in ProductId to the AutoMap method to get AutoMap to ignore and not map the ProductId since this is the identity field that should not get updated. IgnoreIfAutoMapFails When read from database,If some data columns not mappinged with entity class,by default ,will throw exception. if you want ignore the exception, or the property not used for map data table,then you can use the IgnoreIfAutoMapFails(true),this will ignore the exception when read mapping error. context.IgnoreIfAutoMapFails(true); Insert and update - common Fill method
+> 自定义插入或更新列操作
 ```
 var product = new Product();
 product.Name = "The Warren Buffet Way";
@@ -212,33 +209,27 @@ public void FillBuilder(IInsertUpdateBuilder<Product> builder)
 	builder.Column(x => x.CategoryId);
 }
 ```
-> Delete data Using SQL:
+> 删除操作
 ```
 int rowsAffected = Context.Sql(@"delete from Product
 			where ProductId = 1")
 			.Execute();
-```
-> Using a builder:
-```
 int rowsAffected = Context.Delete("Product")
 			.Where("ProductId", 1)
 			.Execute();
 ```
-> Stored procedure Using SQL:
+> 执行存储过程
 ```
 var rowsAffected = Context.Sql("ProductUpdate")
 			.CommandType(DbCommandTypes.StoredProcedure)
 			.Parameter("ProductId", 1)
 			.Parameter("Name", "The Warren Buffet Way")
 			.Execute();
-```
-> Using a builder:
-```
 var rowsAffected = Context.StoredProcedure("ProductUpdate")
 			.Parameter("Name", "The Warren Buffet Way")
 			.Parameter("ProductId", 1).Execute();
 ```
-> Using a builder with automapping
+> 骚操作1
 ```
 var product = Context.Sql("select * from Product where ProductId = 1")
 			.QuerySingle<Product>();
@@ -246,7 +237,7 @@ product.Name = "The Warren Buffet Way";
 var rowsAffected = Context.StoredProcedure<Product>("ProductUpdate", product)
 			.AutoMap(x => x.CategoryId).Execute();
 ```
-> Using a builder with automapping and expressions:
+> 骚操作2
 ```
 var product = Context.Sql("select * from Product where ProductId = 1")
 			.QuerySingle<Product>();
@@ -256,7 +247,7 @@ var rowsAffected = Context.StoredProcedure<Product>("ProductUpdate", product)
 			.Parameter(x => x.ProductId)
 			.Parameter(x => x.Name).Execute();
 ```
-> Transactions FluentData supports transactions. When you use transactions its important to wrap the code inside a using statement to make sure that the database connection is closed. By default, if any exception occur or if Commit is not called then Rollback will automatically be called.
+> 事务使用
 ```
 using (var context = Context.UseTransaction(true))
 {
@@ -271,7 +262,7 @@ using (var context = Context.UseTransaction(true))
 	context.Commit();
 }
 ```
-> Entity factory The entity factory is responsible for creating object instances during automapping. If you have some complex business objects that require special actions during creation, you can create your own custom entity factory:
+> 在查询一个实体对象集时如果需要再创建实体时就进行一些特殊的操作可以自定义实体工厂来满足你的需求
 ```
 List<Product> products = Context.EntityFactory(new CustomEntityFactory())
 			.Sql("select * from Product")
@@ -285,3 +276,5 @@ public class CustomEntityFactory : IEntityFactory
 	}
 }
 ```
+
+> 留记
