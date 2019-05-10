@@ -135,14 +135,13 @@ private void MapComplexProduct(IList<Product> products, IDataReader reader)
 	products.Add(product);
 }
 ```
-> 支持在单次数据库链接中执行查询多个结果集
+>支持多个查询结果表映射成一个实体对象集，且单次链接中执行多次查询
 ```
 using (var command = Context.MultiResultSql)
 {
 	List<Category> categories = command.Sql(
 			@"select * from Category;
-			select * from Product;").QueryMany<Category>();
-
+			  select * from Product;").QueryMany<Category>();
 	List<Product> products = command.QueryMany<Product>();
 }
 ```
