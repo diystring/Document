@@ -1,4 +1,4 @@
-# 无需废话，直接上码
+# 最全Fluentdata详解， 无需废话，直接上码
 > 创建并且初始化一个IDbContext. 二选一
 ```
 public IDbContext Context()
