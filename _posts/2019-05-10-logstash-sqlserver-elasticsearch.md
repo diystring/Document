@@ -1,13 +1,7 @@
 # 通过Logstash由SQLServer向Elasticsearch同步数据
 
->所需软件版本信息
->>* elasticsearch-6.3.2
->>* kibana-6.3.2-windows-x86_64
->>* logstash-6.3.2
->>* Microsoft JDBC driver 6.2 for SQL Server https://www.microsoft.com/zh-CN/download/details.aspx?id=55539
->>> 上述软件需要使用JAVA-JDK 请自行下载
->>Java-jdk-8u131-windows-x64.exe
-
+> 延用上篇ELK所需环境，新增logstash配置文件
+>>* 需要数据库链接驱动 Microsoft JDBC driver 6.2 for SQL Server https://www.microsoft.com/zh-CN/download/details.aspx?id=55539
 ---
 # 主要配置文件详解
 ```
@@ -52,3 +46,5 @@ output {
     }
 }
 ```
+
+> 注意：启动时因为是同台机器运行多个logstash实例，所以需要指定不同的数据存储目录 path.Data 
