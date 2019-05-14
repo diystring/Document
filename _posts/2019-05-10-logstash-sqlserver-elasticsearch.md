@@ -4,6 +4,7 @@
 >>* 需要数据库链接驱动 Microsoft JDBC driver 6.2 for SQL Server https://www.microsoft.com/zh-CN/download/details.aspx?id=55539
 ---
 # 主要配置文件详解
+
 ```
 input {
     jdbc {
