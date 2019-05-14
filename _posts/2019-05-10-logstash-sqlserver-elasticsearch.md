@@ -5,8 +5,8 @@
 ---
 # 主要配置文件详解
 
-#
-```
+<pre>
+
 input {
     jdbc {
      jdbc_driver_library => "D:\ELK_logs\logstash-6.3.2\bin\jdbcconfig\mssql-jdbc-6.2.2.jre8.jar"
@@ -47,5 +47,6 @@ output {
         }
     }
 }
-```
+
+</pre>
 > 注意：启动时因为是同台机器运行多个logstash实例，所以需要指定不同的数据存储目录 path.Data 
